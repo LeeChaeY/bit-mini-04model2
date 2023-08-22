@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="04.Model2MVCShop(stu)">
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <dependent-module archiveName="spring-websocket-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-websocket-5.2.5.RELEASE/spring-websocket-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-instrument-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-instrument-5.2.5.RELEASE/spring-instrument-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-fileupload-1.2.1.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/commons-fileupload-1.2.1/commons-fileupload-1.2.1">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ojdbc14.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/ojdbc14/ojdbc14">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-aop-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-aop-5.2.5.RELEASE/spring-aop-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-web-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-web-5.2.5.RELEASE/spring-web-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-test-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-test-5.2.5.RELEASE/spring-test-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-beans-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-beans-5.2.5.RELEASE/spring-beans-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-messaging-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-messaging-5.2.5.RELEASE/spring-messaging-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javax.servlet.jsp.jstl-1.2.1.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/javax.servlet.jsp.jstl-1.2.1/javax.servlet.jsp.jstl-1.2.1">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-webflux-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-webflux-5.2.5.RELEASE/spring-webflux-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-jcl-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-jcl-5.2.5.RELEASE/spring-jcl-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-jms-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-jms-5.2.5.RELEASE/spring-jms-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-context-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-context-5.2.5.RELEASE/spring-context-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-orm-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-orm-5.2.5.RELEASE/spring-orm-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-webmvc-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-webmvc-5.2.5.RELEASE/spring-webmvc-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-core-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-core-5.2.5.RELEASE/spring-core-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-context-support-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-context-support-5.2.5.RELEASE/spring-context-support-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-aspects-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-aspects-5.2.5.RELEASE/spring-aspects-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-context-indexer-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-context-indexer-5.2.5.RELEASE/spring-context-indexer-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-io-1.4.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/commons-io-1.4/commons-io-1.4">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-tx-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-tx-5.2.5.RELEASE/spring-tx-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-jdbc-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-jdbc-5.2.5.RELEASE/spring-jdbc-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-expression-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-expression-5.2.5.RELEASE/spring-expression-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="spring-oxm-5.2.5.RELEASE.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/spring-oxm-5.2.5.RELEASE/spring-oxm-5.2.5.RELEASE">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javax.servlet.jsp.jstl-api-1.2.1.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/javax.servlet.jsp.jstl-api-1.2.1/javax.servlet.jsp.jstl-api-1.2.1">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="04.Model2MVCShop(stu)"/>
+        <property name="java-output-path" value="/04.Model2MVCShop(stu)/build/classes"/>
+    </wb-module>
+</project-modules>
