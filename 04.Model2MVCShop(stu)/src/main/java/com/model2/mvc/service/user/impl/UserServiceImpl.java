@@ -46,17 +46,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public Map<String,Object> getUserList(Search search) throws Exception {
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("search", search);
-		map.put("endRowNum", (search.getCurrentPage()-1) * search.getPageSize() + 1);
-		map.put("startRowNum", search.getCurrentPage() * search.getPageSize());
-		
 		int totalCount = userDao.getTotalCount(search);
 		System.out.println("totalCount :: "+totalCount);
 		
 		List<User> list = userDao.getUserList(search);
 		
-		map = new HashMap<String,Object>();
+		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("totalCount", totalCount);
 		map.put("list", list);
 		

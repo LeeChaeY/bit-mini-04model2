@@ -33,7 +33,7 @@ public class UserServiceTest {
 	@Qualifier("userServiceImpl")
 	private UserService userService;
 
-	//@Test
+//	@Test
 	public void testAddUser() throws Exception {
 		
 		User user = new User();
@@ -60,10 +60,10 @@ public class UserServiceTest {
 		Assert.assertEquals("경기도", user.getAddr());
 		Assert.assertEquals("test@test.com", user.getEmail());
 		
-		Assert.assertEquals("1", userService.removeUser(user.getUserId()));
+//		Assert.assertEquals(1, userService.removeUser(user.getUserId()));
 	}
 	
-	//@Test
+//	@Test
 	public void testGetUser() throws Exception {
 		
 		User user = new User();
@@ -93,7 +93,7 @@ public class UserServiceTest {
 		Assert.assertNotNull(userService.getUser("user05"));
 	}
 	
-	//@Test
+//	@Test
 	 public void testUpdateUser() throws Exception{
 		 
 		User user = userService.getUser("testUserId");
@@ -124,7 +124,7 @@ public class UserServiceTest {
 		Assert.assertEquals("change@change.com", user.getEmail());
 	 }
 	 
-	//@Test
+//	@Test
 	public void testCheckDuplication() throws Exception{
 
 		//==> 필요하다면...
@@ -150,7 +150,7 @@ public class UserServiceTest {
 	}
 	
 	 //==>  주석을 풀고 실행하면....
-	 //@Test
+//	 @Test
 	 public void testGetUserListAll() throws Exception{
 		 
 	 	Search search = new Search();
@@ -185,7 +185,7 @@ public class UserServiceTest {
 	 	System.out.println(totalCount);
 	 }
 	 
-	 //@Test
+//	 @Test
 	 public void testGetUserListByUserId() throws Exception{
 		 
 	 	Search search = new Search();
@@ -220,7 +220,7 @@ public class UserServiceTest {
 	 	System.out.println(totalCount);
 	 }
 	 
-	 //@Test
+	 @Test
 	 public void testGetUserListByUserName() throws Exception{
 		 
 	 	Search search = new Search();

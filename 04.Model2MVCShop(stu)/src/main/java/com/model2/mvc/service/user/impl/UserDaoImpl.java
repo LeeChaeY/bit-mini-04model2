@@ -1,6 +1,8 @@
 package com.model2.mvc.service.user.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +49,24 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> getUserList(Search search) throws Exception {
-		return sqlSession.selectList("UserMapper.getUserList", search);
+		if (search.getSearchKeyword() != null && !search.getSearchKeyword().equals(""))
+			search.setSearchKeyword("%"+search.getSearchKeyword()+"%");
+		if (search.getOrderKeyword() != null && !search.getOrderKeyword().equals(""))
+			search.setOrderKeyword("%"+search.getOrderKeyword()+"%");
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("startRowNum", (search.getCurrentPage()-1) * search.getPageSize() + 1);
+		map.put("endRowNum", search.getCurrentPage() * search.getPageSize());
+		
+		return sqlSession.selectList("UserMapper.getUserList", map);
 	}
 	
 	@Override
 	public int getTotalCount(Search search) throws Exception {
+		if (search.getSearchKeyword() != null && !search.getSearchKeyword().equals(""))
+			search.setSearchKeyword("%"+search.getSearchKeyword()+"%");
+		
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
 	}
 
