@@ -1,38 +1,59 @@
 package com.model2.mvc.service.product.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.product.dao.ProductDAO;
+import com.model2.mvc.service.product.dao.ProductDao;
 import com.model2.mvc.service.domain.Product;
 
+@Repository("productServiceImpl")
 public class ProductServiceImpl implements ProductService{
-
-	private ProductDAO productDAO;
+	@Autowired
+	@Qualifier("productDaoImpl")
+	private ProductDao productDao;
+	public void setProductDao(ProductDao productDao) {
+		System.out.println(":: "+getClass()+".setProductDao() Call.....");
+		this.productDao = productDao;
+	}
 	
 	public ProductServiceImpl() {
 		// TODO Auto-generated constructor stub
-		productDAO = new ProductDAO();
+		System.out.println(":: "+getClass()+" default Constructor Call.....");
 	}
 	
-	public void addProduct(Product product) throws Exception {
-		productDAO.insertProduct(product);
-		//int result = productDAO.insertProduct(product);
-//		return productDAO.findProduct(result);
+	public int addProduct(Product product) throws Exception {
+		return productDao.addProduct(product);
 	}
 
-	public Product getProduct(int productNo) throws Exception {
-		return productDAO.findProduct(productNo);
+	public Product getProduct(int prodNo) throws Exception {
+		return productDao.getProduct(prodNo);
 	}
 
 	public Map<String,Object> getProductList(Search search) throws Exception {
-		return productDAO.getProductList(search);
+		int totalCount = productDao.getTotalCount(search);
+		System.out.println("totalCount :: "+totalCount);
+		List<Product> list = productDao.getProductList(search);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("totalCount", totalCount);
+		map.put("list", list);
+		
+		return map;
 	}
 
-	public void updateProduct(Product Product) throws Exception {
-		productDAO.updateProduct(Product);
+	public int updateProduct(Product Product) throws Exception {
+		return productDao.updateProduct(Product);
+	}
+	
+	public int removeProduct(int prodNo) throws Exception {
+		return productDao.removeProduct(prodNo);
 		//return productDAO.findProduct(Product.getProdNo());
 	}
 

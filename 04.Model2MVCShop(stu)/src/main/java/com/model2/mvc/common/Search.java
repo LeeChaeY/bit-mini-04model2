@@ -4,11 +4,14 @@ package com.model2.mvc.common;
 public class Search {
 	
 	private int currentPage; 
-	String searchCondition; // 0이면 id로 검색, 1이면 이름으로 검색
-	String searchKeyword; //id or name
-	String orderCondition;
-	String orderKeyword;
-	int pageSize; //pageSize
+	private String searchCondition; // 0이면 id로 검색, 1이면 이름으로 검색
+	private String searchKeyword; //id or name
+	private String orderCondition;
+	private String orderKeyword;
+	private int pageSize; //pageSize
+	
+	private int endRowNum;
+	private int startRowNum;
 	
 	public Search(){
 	}
@@ -52,11 +55,20 @@ public class Search {
 		this.orderKeyword = orderKeyword;
 	}
 	
+	public int getEndRowNum() {
+		return getCurrentPage()*getPageSize();
+	}
+
+	public int getStartRowNum() {
+		return (getCurrentPage()-1)*getPageSize()+1;
+	}
+	
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition="
 				+ searchCondition + ", searchKeyword=" + searchKeyword
 				+ ", orderCondition=" + orderCondition + ", orderKeyword=" + orderKeyword
-				+ ", pageSize=" + pageSize + "]";
+				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
+				+ ", startRowNum=" + startRowNum + "]";
 	}
 }

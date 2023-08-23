@@ -3,6 +3,9 @@ package com.model2.mvc.view.product;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
@@ -12,6 +15,15 @@ public class UpdateProductAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ApplicationContext context =
+				new ClassPathXmlApplicationContext(
+																	new String[] {	"/config/commonservice.xml"	 }
+									                                   );
+		System.out.println("\n");
+
+//		==> Bean/IoC Container ∑Œ ∫Œ≈Õ »πµÊ«— UserService ¿ŒΩ∫≈œΩ∫ »πµÊ
+		ProductService productService = (ProductService)context.getBean("productServiceImpl");
+		
 		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
 		String menu = "search";
 		
@@ -25,8 +37,8 @@ public class UpdateProductAction extends Action {
 		
 		System.out.println("UpdateProductAction : product : "+Product);
 		
-		ProductService service = new ProductServiceImpl();
-		service.updateProduct(Product);
+//		ProductService service = new ProductServiceImpl();
+		productService.updateProduct(Product);
 		
 		request.setAttribute("menu", menu);
 		

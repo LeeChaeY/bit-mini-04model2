@@ -3,32 +3,6 @@
 	<name>04.Model2MVCShop(stu)</name>
 	<comment></comment>
 	<projects>
-		<project>spring-websocket-5.2.5.RELEASE</project>
-		<project>spring-instrument-5.2.5.RELEASE</project>
-		<project>commons-fileupload-1.2.1</project>
-		<project>ojdbc14</project>
-		<project>spring-aop-5.2.5.RELEASE</project>
-		<project>spring-web-5.2.5.RELEASE</project>
-		<project>spring-test-5.2.5.RELEASE</project>
-		<project>spring-beans-5.2.5.RELEASE</project>
-		<project>spring-messaging-5.2.5.RELEASE</project>
-		<project>javax.servlet.jsp.jstl-1.2.1</project>
-		<project>spring-webflux-5.2.5.RELEASE</project>
-		<project>spring-jcl-5.2.5.RELEASE</project>
-		<project>spring-jms-5.2.5.RELEASE</project>
-		<project>spring-context-5.2.5.RELEASE</project>
-		<project>spring-orm-5.2.5.RELEASE</project>
-		<project>spring-webmvc-5.2.5.RELEASE</project>
-		<project>spring-core-5.2.5.RELEASE</project>
-		<project>spring-context-support-5.2.5.RELEASE</project>
-		<project>spring-aspects-5.2.5.RELEASE</project>
-		<project>spring-context-indexer-5.2.5.RELEASE</project>
-		<project>commons-io-1.4</project>
-		<project>spring-tx-5.2.5.RELEASE</project>
-		<project>spring-jdbc-5.2.5.RELEASE</project>
-		<project>spring-expression-5.2.5.RELEASE</project>
-		<project>spring-oxm-5.2.5.RELEASE</project>
-		<project>javax.servlet.jsp.jstl-api-1.2.1</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

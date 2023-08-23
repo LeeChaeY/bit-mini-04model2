@@ -72,7 +72,7 @@ function checkSsn() {
 }
 
 function PortalJuminCheck(fieldValue){
-    var pattern = /^([0-9]{6})-?([0-9]{7})$/; 
+    var pattern = /^([0-9]{6})?([0-9]{7})$/; 
 	var num = fieldValue;
     if (!pattern.test(num)) return false; 
     num = RegExp.$1 + RegExp.$2;

@@ -9,6 +9,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.model2.mvc.framework.Action;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
@@ -17,14 +20,23 @@ import com.model2.mvc.service.domain.Product;
 public class GetProductAction extends Action {
 
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ApplicationContext context =
+				new ClassPathXmlApplicationContext(
+																	new String[] {	"/config/commonservice.xml"	 }
+									                                   );
+		System.out.println("\n");
+
+//		==> Bean/IoC Container ∑Œ ∫Œ≈Õ »πµÊ«— UserService ¿ŒΩ∫≈œΩ∫ »πµÊ
+		ProductService productService = (ProductService)context.getBean("productServiceImpl");
+		
 		int prodNo = Integer.parseInt(request.getParameter("prodNo"));
 		String menu = request.getParameter("menu");
 		String resultPage = "forward:/product/getProduct.jsp";
 		
 		System.out.println("GetProductAction : prodNo : "+prodNo+", menu : "+menu);
 		
-		ProductService service = new ProductServiceImpl();
-		Product product = service.getProduct(prodNo);
+//		ProductService service = new ProductServiceImpl();
+		Product product = productService.getProduct(prodNo);
 		
 		request.setAttribute("product", product);
 		request.setAttribute("menu", menu);
