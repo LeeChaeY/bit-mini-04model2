@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.catalina.tribes.tipis.AbstractReplicatedMap.MapOwner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -45,11 +46,17 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public Map<String,Object> getUserList(Search search) throws Exception {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("endRowNum", (search.getCurrentPage()-1) * search.getPageSize() + 1);
+		map.put("startRowNum", search.getCurrentPage() * search.getPageSize());
+		
 		int totalCount = userDao.getTotalCount(search);
 		System.out.println("totalCount :: "+totalCount);
+		
 		List<User> list = userDao.getUserList(search);
 		
-		Map<String,Object> map = new HashMap<String,Object>();
+		map = new HashMap<String,Object>();
 		map.put("totalCount", totalCount);
 		map.put("list", list);
 		

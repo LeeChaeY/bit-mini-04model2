@@ -77,33 +77,33 @@
   		WHERE user_id = #{userId}
   	</delete>
   	
-  	<select id="getTotalCount" parameterType="search" resultType="int">
+  	<select id="getTotalCount" parameterType="map" resultType="int">
   		SELECT COUNT(*) AS totalCount  
   		FROM (SELECT *  FROM  users 
   					<where>
   						<if test='searchCondition != null and searchKeyword != null and !searchKeyword.equals("")'>
 	  						<if test='searchCondition.equals("0")'>
-	  							LOWER(user_id) = #{searchKeyword}
+	  							LOWER(user_id) = #{search.searchKeyword}
 	  						</if>
 	  						<if test='searchCondition.equals("1")'>
-	  							LOWER(user_name) LIKE #{searchKeyword}
+	  							LOWER(user_name) LIKE #{search.searchKeyword}
 	  						</if>
   						</if>
   					</where>
   					) countTable
   	</select>
 
-  	<select 	id="getUserList" parameterType="search" resultMap="userSelectMap">
+  	<select 	id="getUserList" parameterType="map" resultMap="userSelectMap">
 		SELECT * 
 		FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq 
 					 FROM (SELECT *  FROM  users 
 			  					<where>
 			  					<if test='searchCondition != null and searchKeyword != null and !searchKeyword.equals("")'>
 				  						<if test='searchCondition.equals("0")'>
-				  							LOWER(user_id) LIKE #{searchKeyword}
+				  							LOWER(user_id) LIKE #{search.searchKeyword}
 				  						</if>
 				  						<if test='searchCondition.equals("1")'>
-				  							LOWER(user_name) LIKE #{searchKeyword}
+				  							LOWER(user_name) LIKE #{search.searchKeyword}
 				  						</if>
 			  						</if>
 			  					</where>

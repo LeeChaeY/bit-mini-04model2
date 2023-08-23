@@ -10,9 +10,6 @@ public class Search {
 	private String orderKeyword;
 	private int pageSize; //pageSize
 	
-	private int endRowNum;
-	private int startRowNum;
-	
 	public Search(){
 	}
 	
@@ -55,20 +52,11 @@ public class Search {
 		this.orderKeyword = orderKeyword;
 	}
 	
-	public int getEndRowNum() {
-		return getCurrentPage()*getPageSize();
-	}
-
-	public int getStartRowNum() {
-		return (getCurrentPage()-1)*getPageSize()+1;
-	}
-	
 	@Override
 	public String toString() {
 		return "Search [currentPage=" + currentPage + ", searchCondition="
 				+ searchCondition + ", searchKeyword=" + searchKeyword
 				+ ", orderCondition=" + orderCondition + ", orderKeyword=" + orderKeyword
-				+ ", pageSize=" + pageSize + ", endRowNum=" + endRowNum
-				+ ", startRowNum=" + startRowNum + "]";
+				+ ", pageSize=" + pageSize + "]";
 	}
 }
