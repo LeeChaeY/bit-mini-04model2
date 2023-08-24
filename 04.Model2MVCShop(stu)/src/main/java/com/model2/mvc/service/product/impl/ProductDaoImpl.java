@@ -1,6 +1,8 @@
 package com.model2.mvc.service.product.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +49,48 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public List<Product> getProductList(Search search) throws Exception {
-		return sqlSession.selectList("ProductMapper.getProductList", search);
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		map.put("beginPrice", -1);
+		map.put("endPrice", -1);
+		if (search.getSearchKeyword() != null && !search.getSearchKeyword().equals("")) {
+			if (search.getSearchCondition().equals("1")) {
+				search.setSearchKeyword("%"+search.getSearchKeyword().toLowerCase()+"%");
+			}
+			if (search.getSearchCondition().equals("2")) {
+				map.put("beginPrice", Integer.parseInt(search.getSearchKeyword().split(",")[0]));
+				map.put("endPrice", Integer.parseInt(search.getSearchKeyword().split(",")[1]));
+			}
+		}
+		if (search.getOrderCondition() != null && !search.getOrderCondition().equals(""))
+			search.setOrderCondition(search.getOrderCondition());
+		
+		
+		map.put("search", search);
+		map.put("startRowNum", (search.getCurrentPage()-1) * search.getPageSize() + 1);
+		map.put("endRowNum", search.getCurrentPage() * search.getPageSize());
+		
+		return sqlSession.selectList("ProductMapper.getProductList", map);
 	}
 	
 	@Override
 	public int getTotalCount(Search search) throws Exception {
-		return sqlSession.selectOne("ProductMapper.getTotalCount", search);
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		map.put("beginPrice", -1);
+		map.put("endPrice", -1);
+		if (search.getSearchKeyword() != null && !search.getSearchKeyword().equals("")) {
+			if (search.getSearchCondition().equals("1")) {
+				search.setSearchKeyword("%"+search.getSearchKeyword().toLowerCase()+"%");
+			}
+			if (search.getSearchCondition().equals("2")) {
+				map.put("beginPrice", Integer.parseInt(search.getSearchKeyword().split(",")[0]));
+				map.put("endPrice", Integer.parseInt(search.getSearchKeyword().split(",")[1]));
+			}
+		}
+		map.put("search", search);
+		
+		return sqlSession.selectOne("ProductMapper.getTotalCount", map);
 	}
 
 }

@@ -39,6 +39,7 @@ public class ProductServiceImpl implements ProductService{
 	public Map<String,Object> getProductList(Search search) throws Exception {
 		int totalCount = productDao.getTotalCount(search);
 		System.out.println("totalCount :: "+totalCount);
+		
 		List<Product> list = productDao.getProductList(search);
 		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -54,7 +55,6 @@ public class ProductServiceImpl implements ProductService{
 	
 	public int removeProduct(int prodNo) throws Exception {
 		return productDao.removeProduct(prodNo);
-		//return productDAO.findProduct(Product.getProdNo());
 	}
 
 }

@@ -56,6 +56,8 @@ public class UserServiceTest {
 		Assert.assertEquals("testUserId", user.getUserId());
 		Assert.assertEquals("testUserName", user.getUserName());
 		Assert.assertEquals("testPasswd", user.getPassword());
+		Assert.assertEquals("user", user.getRole());
+		Assert.assertEquals("1111112222222", user.getSsn());
 		Assert.assertEquals("111-2222-3333", user.getPhone());
 		Assert.assertEquals("경기도", user.getAddr());
 		Assert.assertEquals("test@test.com", user.getEmail());
@@ -85,6 +87,8 @@ public class UserServiceTest {
 		Assert.assertEquals("testUserId", user.getUserId());
 		Assert.assertEquals("testUserName", user.getUserName());
 		Assert.assertEquals("testPasswd", user.getPassword());
+		Assert.assertEquals("user", user.getRole());
+		Assert.assertEquals("1111112222222", user.getSsn());
 		Assert.assertEquals("111-2222-3333", user.getPhone());
 		Assert.assertEquals("경기도", user.getAddr());
 		Assert.assertEquals("test@test.com", user.getEmail());
@@ -99,7 +103,11 @@ public class UserServiceTest {
 		User user = userService.getUser("testUserId");
 		Assert.assertNotNull(user);
 		
+		Assert.assertEquals("testUserId", user.getUserId());
 		Assert.assertEquals("testUserName", user.getUserName());
+		Assert.assertEquals("testPasswd", user.getPassword());
+		Assert.assertEquals("user", user.getRole());
+		Assert.assertEquals("1111112222222", user.getSsn());
 		Assert.assertEquals("111-2222-3333", user.getPhone());
 		Assert.assertEquals("경기도", user.getAddr());
 		Assert.assertEquals("test@test.com", user.getEmail());
@@ -118,7 +126,11 @@ public class UserServiceTest {
 		//System.out.println(user);
 			
 		//==> API 확인
+		Assert.assertEquals("testUserId", user.getUserId());
 		Assert.assertEquals("change", user.getUserName());
+		Assert.assertEquals("testPasswd", user.getPassword());
+		Assert.assertEquals("user", user.getRole());
+		Assert.assertEquals("1111112222222", user.getSsn());
 		Assert.assertEquals("777-7777-7777", user.getPhone());
 		Assert.assertEquals("change", user.getAddr());
 		Assert.assertEquals("change@change.com", user.getEmail());
