@@ -22,7 +22,7 @@ public class UpdatePurchaseAction extends Action{
 		purchase.setReceiverPhone(request.getParameter("receiverPhone"));
 		
 		PurchaseService service = new PurchaseServiceImpl();
-		purchase = service.updatePurchase(purchase);
+		int result = service.updatePurchase(purchase);
 		System.out.println("UpdatePurchaseAction : purchase : " +purchase);
 		
 		request.setAttribute("purchase", purchase);

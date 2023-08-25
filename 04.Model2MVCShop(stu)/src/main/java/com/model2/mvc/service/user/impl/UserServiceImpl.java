@@ -4,17 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.catalina.tribes.tipis.AbstractReplicatedMap.MapOwner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.user.UserService;
 import com.model2.mvc.service.user.dao.UserDao;
 import com.model2.mvc.service.domain.User;
 
-@Repository("userServiceImpl")
+@Service("userServiceImpl")
 public class UserServiceImpl implements UserService{
 	@Autowired
 	@Qualifier("userDaoImpl")
