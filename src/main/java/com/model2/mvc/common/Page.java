@@ -2,7 +2,7 @@ package com.model2.mvc.common;
 
 
 public class Page {
-	
+	private int ee;
 	///Field
 	private int currentPage;		// 현재페이지
 	private int totalCount;		// 총 게시물 수
