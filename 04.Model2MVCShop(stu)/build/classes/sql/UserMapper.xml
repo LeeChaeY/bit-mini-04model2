@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--	
+	UserMapper.xml :: SQL 를 갖는 MetaData 
+	
+	- MyBatis Framework 은 XML MetaData 를 사용 SQL구문을 관리
+	  (SQL은 xml 을 통해 적절히 캡슐화 되어 애플리케이선 외부로 분리함)
+	- SQL문의 입력(?) / 출력(?)을 매핑한다.  <== 아래의 select element 참조
+ -->		
+ 					
+<mapper namespace="UserMapper">
+
+	<!-- 위의  namespace 이용 Application 에서 UserMapper.~~ 로 아래의 SQL 을 참조  
+	 	  :: 아래의 query 수행 후 결과 resultType 에 선언된 User Domain Object 
+	 	   	  Field ( property )에 자동연결(?,바인딩)
+	 	  :: SQL / Query 의 Alias 와 User Domain Object 의 Field 이름 동일한 것 확인.  -->
+  	
+  	<resultMap type="user" id="userSelectMap">
+  		<result property="userId" column="user_id" jdbcType="VARCHAR"/>
+  		<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+  		<result property="password" column="password" jdbcType="VARCHAR"/>
+  		<result property="role" column="role" jdbcType="VARCHAR"/>
+  		<result property="ssn" column="ssn" jdbcType="VARCHAR"/>
+  		<result property="phone" column="cell_phone" jdbcType="VARCHAR"/>
+  		<result property="addr" column="addr" jdbcType="VARCHAR"/>
+  		<result property="email" column="email" jdbcType="VARCHAR"/>
+  		<result property="regDate" column="reg_date" jdbcType="DATE"/>
+  	</resultMap>
+  	
+  	<insert id="addUser" parameterType="user">
+		INSERT 
+		INTO users (user_id,user_name,password,role,ssn,cell_phone,addr,email,reg_date) 
+		VALUES (			#{userId}, 
+								#{userName}, 
+								#{password}, 
+								'user', 
+								#{ssn:VARCHAR}, 
+								#{phone:VARCHAR}, 
+								#{addr:VARCHAR}, 
+								#{email:VARCHAR}, 
+								SYSDATE )		
+  	</insert>
+  	
+  	<select 	id="getUser" parameterType="string" resultMap="userSelectMap">
+		SELECT 
+		user_id,user_name,password,role,ssn,cell_phone,addr,email,reg_date
+		FROM users   						
+		WHERE user_id = #{userId}			
+  	</select>
+  	
+  	<update id="updateUser" parameterType="user">
+  		UPDATE users
+  		<trim prefix="set" suffixOverrides=",">
+  			<if test="userName != null">
+  				user_name = #{userName}, 
+  			</if>
+  			<if test="phone != null">
+  				cell_phone = #{phone}, 
+  			</if>
+  			<if test="addr != null">
+  				addr = #{addr}, 
+  			</if>
+  			<if test="email != null">
+  				email = #{email}, 
+  			</if>
+  		</trim>	
+  		WHERE user_id = #{userId}
+  	</update>
+  	
+  	<delete id="removeUser" parameterType="string">
+  		DELETE
+  		FROM users
+  		WHERE user_id = #{userId}
+  	</delete>
+  	
+  	<select id="getTotalCount" parameterType="search" resultType="int">
+  		SELECT COUNT(*) AS totalCount  
+  		FROM (SELECT *  FROM  users 
+  					<where>
+  						<if test='searchCondition != null and searchKeyword != null and !searchKeyword.equals("")'>
+	  						<if test='searchCondition.equals("0")'>
+	  							LOWER(user_id) = LOWER(#{searchKeyword})
+	  						</if>
+	  						<if test='searchCondition.equals("1")'>
+	  							LOWER(user_name) LIKE LOWER(#{searchKeyword})
+	  						</if>
+  						</if>
+  					</where>
+  					) countTable
+  	</select>
+
+  	<select 	id="getUserList" parameterType="map" resultMap="userSelectMap">
+		SELECT * 
+		FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq 
+					 FROM (SELECT *  FROM  users 
+			  					<where>
+			  					<if test='search.searchCondition != null and search.searchKeyword != null and !search.searchKeyword.equals("")'>
+				  						<if test='search.searchCondition.equals("0")'>
+				  							LOWER(user_id) = LOWER(#{search.searchKeyword})
+				  						</if>
+				  						<if test='search.searchCondition.equals("1")'>
+				  							LOWER(user_name) LIKE LOWER(#{search.searchKeyword})
+				  						</if>
+			  						</if>
+			  					</where>
+			  					ORDER BY user_id)  inner_table 
+			  		WHERE ROWNUM &lt;= #{endRowNum}	)
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+  	</select>
+  	
+</mapper>
