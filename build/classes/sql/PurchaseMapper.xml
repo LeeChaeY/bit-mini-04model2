@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--	
+	UserMapper.xml :: SQL 를 갖는 MetaData 
+	
+	- MyBatis Framework 은 XML MetaData 를 사용 SQL구문을 관리
+	  (SQL은 xml 을 통해 적절히 캡슐화 되어 애플리케이선 외부로 분리함)
+	- SQL문의 입력(?) / 출력(?)을 매핑한다.  <== 아래의 select element 참조
+ -->		
+ 					
+<mapper namespace="PurchaseMapper">
+
+	<!-- 위의  namespace 이용 Application 에서 UserMapper.~~ 로 아래의 SQL 을 참조  
+	 	  :: 아래의 query 수행 후 결과 resultType 에 선언된 User Domain Object 
+	 	   	  Field ( property )에 자동연결(?,바인딩)
+	 	  :: SQL / Query 의 Alias 와 User Domain Object 의 Field 이름 동일한 것 확인.  -->
+  	
+  	<resultMap type="purchase" id="purchaseSelectMap">
+  		<result property="tranNo" column="tran_no" jdbcType="NUMERIC"/>
+  		<result property="purchaseProd.prodNo" column="prod_no" jdbcType="NUMERIC"/>
+  		<result property="buyer.userId" column="buyer_id" jdbcType="VARCHAR"/>
+  		<result property="paymentOption" column="payment_option" jdbcType="CHAR"/>
+  		<result property="receiverName" column="receiver_name" jdbcType="VARCHAR"/>
+  		<result property="receiverPhone" column="receiver_phone" jdbcType="VARCHAR"/>
+  		<result property="divyAddr" column="demailaddr" jdbcType="VARCHAR"/>
+  		<result property="divyRequest" column="dlvy_request" jdbcType="VARCHAR"/>
+  		<result property="tranCode" column="tran_status_code" jdbcType="CHAR"/>
+  		<result property="orderDate" column="order_data" jdbcType="DATE"/>
+  		<result property="divyDate" column="dlvy_date" jdbcType="DATE"/>
+  	</resultMap>
+  	
+  	<insert id="addPurchase" parameterType="purchase">
+		INSERT 
+		INTO transaction (tran_no,prod_no,buyer_id,payment_option,receiver_name,receiver_phone
+								,demailaddr,dlvy_request,tran_status_code,order_data,dlvy_date) 
+		VALUES (			seq_transaction_tran_no.NEXTVAL, 
+								#{purchaseProd.prodNo}, 
+								#{buyer.userId}, 
+								#{paymentOption:CHAR}, 
+								#{receiverName:VARCHAR}, 
+								#{receiverPhone:VARCHAR},  
+								#{divyAddr:VARCHAR}, 
+								#{divyRequest:VARCHAR}, 
+								'2', 
+								SYSDATE, 
+								TO_DATE(#{divyDate:DATE}, 'YYYY/MM/DD') )		
+  	</insert>
+  	
+  	<select 	id="getPurchase" parameterType="int" resultMap="purchaseSelectMap">
+		SELECT tran_no,prod_no,buyer_id,payment_option,receiver_name,receiver_phone
+					,demailaddr,dlvy_request,tran_status_code,order_data,dlvy_date
+		FROM transaction  						
+		WHERE tran_no = #{tranNo}			
+  	</select>
+  	
+  	<update id="updatePurchase" parameterType="purchase">
+  		UPDATE transaction 
+  		<trim prefix="set" suffixOverrides=",">
+  			<if test="divyAddr != null">
+  				demailaddr = #{divyAddr}, 
+  			</if>
+  			<if test="divyDate != null">
+  				dlvy_date = #{divyDate}, 
+  			</if>
+  			<if test="divyRequest != null">
+  				dlvy_request = #{divyRequest}, 
+  			</if>
+  			<if test="paymentOption != null">
+  				payment_option = #{paymentOption}, 
+  			</if>
+  			<if test="receiverName != null">
+  				receiver_name = #{receiverName}, 
+  			</if>
+  			<if test="receiverPhone != null">
+  				receiver_phone = #{receiverPhone}, 
+  			</if>
+  		</trim>	
+  		WHERE tran_no = #{tranNo}
+  	</update>
+  	
+  	<delete id="removePurchase" parameterType="int">
+  		DELETE 
+  		FROM transaction 
+  		WHERE tran_no = #{tranNo}
+  	</delete>
+  	
+  	<select id="getTotalCount" parameterType="map" resultType="int">
+  		SELECT COUNT(*) AS totalCount  
+  		FROM (SELECT * 
+  					FROM transaction 
+  					<where>
+  						LOWER(buyer_id) = #{userId}
+  						<if test='!beginDate.equals("") and !endDate.equals("")'>
+	  						<if test='endDate.equals("SYSDATE")'>
+	  							AND  order_data BETWEEN #{beginDate} AND SYSDATE
+	  						</if>
+	  						<if test='!endDate.equals("SYSDATE")'>
+	  							AND  order_data BETWEEN #{beginDate} AND #{endDate}
+	  						</if>
+  						</if>
+  					</where>
+  					) countTable
+  	</select>
+
+  	<select 	id="getPurchaseList" parameterType="map" resultMap="purchaseSelectMap">
+		SELECT * 
+		FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq 
+					 FROM (SELECT *
+					 			FROM transaction 
+					 			<where>
+		  						LOWER(buyer_id) = #{userId}
+		  						<if test='!beginDate.equals("") and !endDate.equals("")'>
+			  						<if test='endDate.equals("SYSDATE")'>
+			  							AND  order_data BETWEEN #{beginDate} AND SYSDATE
+			  						</if>
+			  						<if test='!endDate.equals("SYSDATE")'>
+			  							AND  order_data BETWEEN #{beginDate} AND #{endDate}
+			  						</if>
+		  						</if>
+		  						</where>
+			  					ORDER BY order_data DESC
+			  					)  inner_table 
+			  		WHERE ROWNUM &lt;= #{endRowNum}	)
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+  	</select>
+  	
+  	<update id="updateTranCode" parameterType="purchase">
+  		UPDATE transaction 
+  		<trim prefix="set" suffixOverrides=",">
+  			<if test="tranCode != null">
+				<if test='tranCode.equals("2")'>
+					tran_status_code = '3'
+				</if>
+				<if test='tranCode.equals("3")'>
+					tran_status_code = '4'
+				</if>
+			</if>
+  		</trim>	
+  		<where>
+			<if test='tranCode.equals("2")'>
+				prod_no = #{purchaseProd.prodNo}
+			</if>
+			<if test='tranCode.equals("3")'>
+				tran_no = #{tranNo}
+			</if>
+		</where>
+  	</update>
+  	
+</mapper>
