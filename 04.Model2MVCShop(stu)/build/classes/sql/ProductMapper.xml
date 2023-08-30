@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--	
+	UserMapper.xml :: SQL 를 갖는 MetaData 
+	
+	- MyBatis Framework 은 XML MetaData 를 사용 SQL구문을 관리
+	  (SQL은 xml 을 통해 적절히 캡슐화 되어 애플리케이선 외부로 분리함)
+	- SQL문의 입력(?) / 출력(?)을 매핑한다.  <== 아래의 select element 참조
+ -->		
+ 					
+<mapper namespace="ProductMapper">
+
+	<!-- 위의  namespace 이용 Application 에서 UserMapper.~~ 로 아래의 SQL 을 참조  
+	 	  :: 아래의 query 수행 후 결과 resultType 에 선언된 User Domain Object 
+	 	   	  Field ( property )에 자동연결(?,바인딩)
+	 	  :: SQL / Query 의 Alias 와 User Domain Object 의 Field 이름 동일한 것 확인.  -->
+  	
+  	<resultMap type="product" id="productSelectMap">
+  		<result property="prodNo" column="prod_no" jdbcType="NUMERIC"/>
+  		<result property="prodName" column="prod_name" jdbcType="VARCHAR"/>
+  		<result property="prodDetail" column="prod_detail" jdbcType="VARCHAR"/>
+  		<result property="manuDate" column="manufacture_day" jdbcType="VARCHAR"/>
+  		<result property="price" column="price" jdbcType="NUMERIC"/>
+  		<result property="fileName" column="image_file" jdbcType="VARCHAR"/>
+  		<result property="regDate" column="reg_date" jdbcType="DATE"/>
+  		<result property="proTranCode" column="pro_tran_code" jdbcType="VARCHAR"/>
+  	</resultMap>
+  	
+  	<insert id="addProduct" parameterType="product">
+		INSERT 
+		INTO product (prod_no,prod_name,prod_detail,manufacture_day,price,image_file,reg_date) 
+		VALUES (			seq_product_prod_no.NEXTVAL, 
+								#{prodName}, 
+								#{prodDetail:VARCHAR}, 
+								#{manuDate:VARCHAR},  
+								#{price:NUMERIC}, 
+								#{fileName:VARCHAR}, 
+								SYSDATE )		
+  	</insert>
+  	
+  	<select 	id="getProduct" parameterType="int" resultMap="productSelectMap">
+		SELECT P.*, TRIM(tran_status_code) AS pro_tran_code
+		FROM product P LEFT OUTER JOIN transaction T ON P.prod_no = T.prod_no 						
+		WHERE P.prod_no = #{prodNo}			
+  	</select>
+  	
+  	<update id="updateProduct" parameterType="product">
+  		UPDATE product 
+  		<trim prefix="set" suffixOverrides=",">
+  			<if test="prodName != null">
+  				prod_name = #{prodName}, 
+  			</if>
+  			<if test="prodDetail != null">
+  				prod_detail = #{prodDetail}, 
+  			</if>
+  			<if test="manuDate != null">
+  				manufacture_day = #{manuDate}, 
+  			</if>
+  			<if test="price != null">
+  				price = #{price}, 
+  			</if>
+  			<if test="fileName != null">
+  				image_file = #{fileName}, 
+  			</if>
+  		</trim>	
+  		WHERE prod_no = #{prodNo}
+  	</update>
+  	
+  	<delete id="removeProduct" parameterType="int">
+  		DELETE 
+  		FROM product 
+  		WHERE prod_no = #{prodNo}
+  	</delete>
+  	
+  	<select id="getTotalCount" parameterType="map" resultType="int">
+  		SELECT COUNT(*) AS totalCount  
+  		FROM (SELECT P.*, TRIM(tran_status_code) AS pro_tran_code
+  					FROM product P LEFT OUTER JOIN transaction T 
+  					ON P.prod_no = T.prod_no
+  					<where>
+  						<if test='search.searchCondition != null and search.searchKeyword != null and !search.searchKeyword.equals("")'>
+	  						<if test='search.searchCondition.equals("1")'>
+	  							LOWER(prod_name) LIKE #{search.searchKeyword}
+	  						</if>
+	  						<if test='search.searchCondition.equals("2")'>
+	  							price BETWEEN #{beginPrice} AND #{endPrice}
+	  						</if>
+  						</if>
+  					</where>
+  					) countTable
+  	</select>
+
+  	<select 	id="getProductList" parameterType="map" resultMap="productSelectMap">
+		SELECT * 
+		FROM ( SELECT inner_table. * ,  ROWNUM AS row_seq 
+					 FROM (SELECT P.*, TRIM(tran_status_code) AS pro_tran_code
+					 			FROM product P LEFT OUTER JOIN transaction T 
+					 			ON P.prod_no = T.prod_no 
+			  					<where>
+			  						<if test='search.searchCondition != null'>
+	  									<if test='search.searchCondition.equals("1") and search.searchKeyword != null and !search.searchKeyword.equals("")'>
+	  										LOWER(prod_name) LIKE #{search.searchKeyword}
+	  									</if>
+	  									<if test='search.searchCondition.equals("2") and beginPrice != -1 and endPrice != -1'>
+	  										price BETWEEN #{beginPrice} AND #{endPrice}
+	  									</if>
+  									</if>
+			  					</where>
+			  					ORDER BY 
+			  					<choose>
+			  						<when test='search.orderCondition != null and search.orderCondition.equals("1")'>
+			  							P.price
+			  						</when>
+			  						<when test='search.orderCondition != null and search.orderCondition.equals("2")'>
+			  							P.price DESC
+			  						</when>
+			  						<otherwise>
+			  							P.prod_no
+			  						</otherwise>
+			  					</choose>
+			  					)  inner_table 
+			  		WHERE ROWNUM &lt;= #{endRowNum}	)
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+  	</select>
+  	
+</mapper>
