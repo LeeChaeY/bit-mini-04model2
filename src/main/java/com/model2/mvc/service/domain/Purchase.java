@@ -89,10 +89,10 @@ public class Purchase {
 	
 	@Override
 	public String toString() {
-		return "PurchaseVO [buyer=" + buyer + ", divyAddr=" + divyAddr
-				+ ", divyDate=" + divyDate + ", divyRequest=" + divyRequest
-				+ ", orderDate=" + orderDate + ", paymentOption="
-				+ paymentOption + ", purchaseProd=" + purchaseProd
+		return "PurchaseVO [buyer=" + buyer + ", purchaseProd=" + purchaseProd
+				+ ", divyAddr=" + divyAddr + ", divyDate=" + divyDate 
+				+ ", divyRequest=" + divyRequest + ", orderDate=" 
+				+ orderDate + ", paymentOption=" + paymentOption 
 				+ ", receiverName=" + receiverName + ", receiverPhone="
 				+ receiverPhone + ", tranCode=" + tranCode + ", tranNo="
 				+ tranNo + "]";
